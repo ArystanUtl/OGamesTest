@@ -17,6 +17,15 @@ namespace CodeBase
         private void Awake()
         {
             buttonsController.OnGenerateButtonClicked += GenerateCubes;
+            buttonsController.OnMoveButtonClicked += StartMovingCubes;
+        }
+
+        private void StartMovingCubes()
+        {
+            foreach (var cube in _cubes)
+            {
+                cube.StartMoving();
+            }
         }
 
         private void GenerateCubes()
@@ -30,7 +39,9 @@ namespace CodeBase
 
                 var cube = gameFabric.CreateCube(pos, cubeContainer);
                 cube.SetColor(color);
-                cube.SetText(i.ToString());
+
+                var number = i + 1;
+                cube.SetText(number.ToString());
 
                 _cubes.Add(cube);
             }

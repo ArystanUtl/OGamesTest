@@ -756,8 +756,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26959eba6f169d4c882e84558cbca8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidBody: {fileID: 4424213445500781330}
   meshRenderer: {fileID: 9037215772354081630}
-  textElements: []
+  textElements:
+  - {fileID: 8903601093887154662}
+  - {fileID: 4087256591942586373}
+  - {fileID: 5954732780691686722}
+  - {fileID: 2640789441222338042}
+  movingSpeed: 3
 --- !u!54 &4424213445500781330
 Rigidbody:
   m_ObjectHideFlags: 0
