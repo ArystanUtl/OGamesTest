@@ -8,9 +8,9 @@ namespace CodeBase.Service
     {
         public static Vector3 GetRandomPosition()
         {
-            var posX = Range(MIN_CUBE_POSITION, MAX_CUBE_POSITION);
-            var posY = Range(MIN_CUBE_POSITION, MAX_CUBE_POSITION);
-            var posZ = Range(MIN_CUBE_POSITION, MAX_CUBE_POSITION);
+            var posX = Range(MIN_CUBE_POSITION, MAX_CUBE_POSITION) - MAX_CUBE_POSITION / 2f;
+            var posY = MAX_CUBE_POSITION / 2f;
+            var posZ = Range(MIN_CUBE_POSITION, MAX_CUBE_POSITION) - MAX_CUBE_POSITION / 2f;
 
             var result = new Vector3(posX, posY, posZ);
 

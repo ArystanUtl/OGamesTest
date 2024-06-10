@@ -7,7 +7,6 @@ namespace CodeBase.Service
         [SerializeField] private Cube cubePrefab;
         [SerializeField] private Bullet bulletPrefab;
 
-
         public Cube CreateCube(Vector3 position, Transform parent)
         {
             var cube = Instantiate(cubePrefab, position, Quaternion.identity);
@@ -18,7 +17,6 @@ namespace CodeBase.Service
         public Bullet CreateBullet(Vector3 position, Transform parent)
         {
             var bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
-
             bullet.transform.SetParent(parent);
             return bullet;
         }
