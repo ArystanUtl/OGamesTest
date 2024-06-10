@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CodeBase.BulletModules;
+using CodeBase.CubeModules;
+using UnityEngine;
 
 namespace CodeBase.Service
 {

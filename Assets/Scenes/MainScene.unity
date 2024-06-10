@@ -629,7 +629,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 300}
+  m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1082952620
 MonoBehaviour:
@@ -651,7 +651,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 120, y: 120}
+  m_CellSize: {x: 150, y: 150}
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 2
   m_ConstraintCount: 2
@@ -707,8 +707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generateButton: {fileID: 1432097611}
   moveButton: {fileID: 2113568248}
-  attackButton: {fileID: 1119199769}
-  targetButton: {fileID: 1927468609}
+  playerAttackButton: {fileID: 1119199769}
+  cubeAttackModeButton: {fileID: 1927468609}
 --- !u!1001 &1119199767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -718,11 +718,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_text
-      value: Attack
+      value: PlayerAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584092, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Name
-      value: Button (2)
+      value: PlayerAttackButton
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584095, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Pivot.x
@@ -907,7 +915,7 @@ GameObject:
   - component: {fileID: 1363019983}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Floor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1016,11 +1024,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_text
-      value: Destroy
+      value: CubeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584092, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Name
-      value: Button (3)
+      value: CubeAttackModeButton
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584095, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Pivot.x
@@ -1280,6 +1296,7 @@ MonoBehaviour:
   buttonsController: {fileID: 1082952623}
   gameFabric: {fileID: 118566397}
   cubeContainer: {fileID: 508835448}
+  floor: {fileID: 1363019978}
 --- !u!1 &1761973843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,9 +1419,17 @@ PrefabInstance:
       propertyPath: m_text
       value: Move
       objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584092, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Name
-      value: Button (1)
+      value: MoveButton
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584095, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Pivot.x
@@ -1515,10 +1540,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 677135965726955363, guid: 11124afd576b74342a39b025c9357f48, type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 677135966388701576, guid: 11124afd576b74342a39b025c9357f48, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1571,10 +1592,6 @@ PrefabInstance:
       propertyPath: gameFabric
       value: 
       objectReference: {fileID: 118566397}
-    - target: {fileID: 677135966388701583, guid: 11124afd576b74342a39b025c9357f48, type: 3}
-      propertyPath: attackDelay
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 677135966388701583, guid: 11124afd576b74342a39b025c9357f48, type: 3}
       propertyPath: buttonsController
       value: 
@@ -1658,9 +1675,17 @@ PrefabInstance:
       propertyPath: m_text
       value: Spawn
       objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817416619662669731, guid: 192129397301bbb45b158566eafcfc44, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584092, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Name
-      value: Button
+      value: GenerateCubesButton
       objectReference: {fileID: 0}
     - target: {fileID: 4817416619932584095, guid: 192129397301bbb45b158566eafcfc44, type: 3}
       propertyPath: m_Pivot.x

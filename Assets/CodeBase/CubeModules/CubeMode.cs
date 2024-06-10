@@ -1,4 +1,4 @@
-﻿namespace CodeBase
+﻿namespace CodeBase.CubeModules
 {
     public enum CubeMode
     {

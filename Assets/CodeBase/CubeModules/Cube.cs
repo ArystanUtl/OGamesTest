@@ -1,33 +1,38 @@
 using System;
 using System.Collections.Generic;
+using CodeBase.Controllers;
 using CodeBase.GlobalData;
-using Cysharp.Threading.Tasks;
+using CodeBase.Service;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace CodeBase
+namespace CodeBase.CubeModules
 {
     public class Cube : MonoBehaviour
     {
         [SerializeField] private Rigidbody rigidBody;
         [SerializeField] private Renderer meshRenderer;
         [SerializeField] private List<TMP_Text> textElements;
+        
         [SerializeField] private float movingSpeed;
         [SerializeField] private float attackingSpeed;
 
-        private Vector3 _currentMovementVector;
-
+        public int Number { get; private set; }
+        public bool IsMoved { get; private set; }
+        
+        
         private GameZoneController _gameZoneController;
 
-        private bool _isDirection;
-
+        private Vector3 _currentMovementVector;
         private CubeMode _mode = CubeMode.Moving;
 
         private Cube _nearestCube;
 
-        public int Number { get; private set; }
-        public bool IsMoved { get; private set; }
+        public void Init(GameZoneController gameZoneController)
+        {
+            _gameZoneController = gameZoneController;
+        }
 
         private void Update()
         {
@@ -69,41 +74,39 @@ namespace CodeBase
             if (_mode is CubeMode.Moving)
                 return;
 
-            if (other.transform.TryGetComponent<Cube>(out var cube))
-                if (cube == _nearestCube)
-                {
-                    Destroy(other.gameObject);
-                    _nearestCube = null;
+            if (!other.transform.TryGetComponent<Cube>(out var cube))
+                return;
 
-
-                    AttackNextCube().Forget();
-                }
+            if (cube != _nearestCube)
+                return;
+            
+            _gameZoneController.RemoveCube(cube);
+            
+            Destroy(other.gameObject);
+            _nearestCube = null;
+            
+            AttackNextCube();
         }
 
         private void OnCollisionStay(Collision other)
         {
-            if (other.gameObject.CompareTag(GameConstants.FLOOR_TAG))
+            if (_gameZoneController.IsFloor(other.gameObject))
                 return;
 
             GenerateMovementVector();
         }
 
-        public void Init(GameZoneController gameZoneController)
+        private void AttackNextCube()
         {
-            _gameZoneController = gameZoneController;
-        }
-
-        private async UniTask AttackNextCube()
-        {
-            var cubes = await _gameZoneController.GetAllCubesAsync();
+            var cubes =  _gameZoneController.AllCubes;
 
             if (cubes.Count == 1)
             {
-                StopMovement();
+                StopMoving();
                 return;
             }
 
-            await FindNearestCube();
+            FindNearestCube();
         }
 
         public void StartMoving()
@@ -137,23 +140,28 @@ namespace CodeBase
                 meshRenderer.material.color = color;
         }
 
-        public void StopMovement()
+        public void StopMoving()
         {
             IsMoved = false;
         }
 
-
-        public async UniTask SetCubeMain()
+        public void ChangeCubeToAttacker()
         {
-            transform.localScale *= 2;
-            await FindNearestCube();
+            IncreaseScale();
+            
+            FindNearestCube();
 
             _mode = CubeMode.Attacking;
         }
 
-        private async UniTask FindNearestCube()
+        private void IncreaseScale()
         {
-            var cubes = await _gameZoneController.GetAllCubesAsync();
+            transform.localScale *= GameConstants.ATTACK_CUBE_INCREASE_COEFFICIENT;
+        }
+
+        private void FindNearestCube()
+        {
+            var cubes = _gameZoneController.AllCubes;
             if (cubes.IsNullOrEmpty())
                 return;
 

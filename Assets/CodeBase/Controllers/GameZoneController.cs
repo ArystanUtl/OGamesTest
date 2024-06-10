@@ -1,60 +1,66 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CodeBase.CubeModules;
 using CodeBase.GlobalData;
 using CodeBase.Service;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace CodeBase
+namespace CodeBase.Controllers
 {
     public class GameZoneController : MonoBehaviour
     {
         [SerializeField] private ButtonsController buttonsController;
         [SerializeField] private GameFabric gameFabric;
         [SerializeField] private Transform cubeContainer;
+        [SerializeField] private GameObject floor;
 
+        public List<Cube> AllCubes { get; } = new();
 
-        private List<Cube> _cubes = new();
-
-        public List<Cube> ActiveCubes
+        public List<Cube> MovingCubes
         {
             get
             {
-                var cubes = _cubes.Where(x => x && x.gameObject && x.IsMoved).ToList();
+                var cubes = AllCubes.Where(x => x.IsMoved).ToList();
                 return cubes;
             }
         }
 
+        public bool IsFloor(GameObject go)
+        {
+            return go == floor;
+        }
+
         private void Awake()
+        {
+            AddListeners();
+        }
+
+        private void AddListeners()
         {
             buttonsController.OnGenerateButtonClicked += GenerateCubes;
             buttonsController.OnMoveButtonClicked += StartMovingCubes;
-            buttonsController.OnTargetButtonClicked += StartAttackCubes;
+            buttonsController.OnCubeAttackModeButtonClicked += StartCubeAttackerMode;
         }
 
-        public async UniTask<List<Cube>> GetAllCubesAsync()
+        public void RemoveCube(Cube cube)
         {
-            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
-            _cubes = _cubes.Where(x => x != null && x.gameObject != null).ToList();
-            return _cubes;
+            AllCubes.Remove(cube);
         }
 
-        private void StartAttackCubes()
+        private void StartCubeAttackerMode()
         {
             StartMovingCubes();
 
-            var randomIndex = Random.Range(0, _cubes.Count);
-            //randomIndex = Math.Clamp(randomIndex, 0, _cubes.Count - 1);
+            var randomIndex = Random.Range(0, AllCubes.Count);
+            var randomCube = AllCubes[randomIndex];
 
-            var randomCube = _cubes[randomIndex];
-
-            randomCube.SetCubeMain().Forget();
+            randomCube.ChangeCubeToAttacker();
         }
 
         private void StartMovingCubes()
         {
-            foreach (var cube in _cubes)
+            foreach (var cube in AllCubes)
                 cube.StartMoving();
         }
 
@@ -74,7 +80,7 @@ namespace CodeBase
                 var number = i + 1;
                 cube.SetNumber(number);
 
-                _cubes.Add(cube);
+                AllCubes.Add(cube);
             }
         }
     }

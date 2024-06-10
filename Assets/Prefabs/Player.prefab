@@ -233,11 +233,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonsController: {fileID: 0}
-  bulletSpawn: {fileID: 677135966642619918}
-  gameFabric: {fileID: 0}
   gameZoneController: {fileID: 0}
+  gameFabric: {fileID: 0}
+  bulletSpawn: {fileID: 677135966642619918}
   numberText: {fileID: 677135965726955363}
   bulletContainer: {fileID: 677135966332850582}
+  attackDelay: 2
 --- !u!1 &677135966642619919
 GameObject:
   m_ObjectHideFlags: 0
