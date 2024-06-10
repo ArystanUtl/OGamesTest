@@ -4,7 +4,6 @@ using CodeBase.CubeModules;
 using CodeBase.Service;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace CodeBase.Controllers
 {
@@ -40,11 +39,10 @@ namespace CodeBase.Controllers
         }
 
         private async UniTask StartAttackingRecursive()
-        {
-            AttackTarget();
-
+        {  
             await UniTask.Delay(TimeSpan.FromSeconds(attackDelay), cancellationToken: _attackCts.Token);
-
+            
+            AttackTarget();
             StartAttackingRecursive().Forget();
         }
 
@@ -64,10 +62,8 @@ namespace CodeBase.Controllers
                 StopAttackingMode();
                 return;
             }
-
-            var randomIndex = Random.Range(0, cubes.Count);
-
-            var randomCube = cubes[randomIndex];
+            
+            var randomCube = cubes.GetRandomElement();
             _currentTarget = randomCube;
 
             ShowTargetNumber();

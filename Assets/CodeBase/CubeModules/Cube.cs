@@ -145,7 +145,7 @@ namespace CodeBase.CubeModules
             IsMoved = false;
         }
 
-        public void ChangeCubeToAttacker()
+        public void ChangeCubeModeToAttacker()
         {
             IncreaseScale();
             

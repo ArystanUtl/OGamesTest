@@ -52,10 +52,9 @@ namespace CodeBase.Controllers
         {
             StartMovingCubes();
 
-            var randomIndex = Random.Range(0, AllCubes.Count);
-            var randomCube = AllCubes[randomIndex];
+            var randomCube = AllCubes.GetRandomElement();
 
-            randomCube.ChangeCubeToAttacker();
+            randomCube.ChangeCubeModeToAttacker();
         }
 
         private void StartMovingCubes()
@@ -66,7 +65,7 @@ namespace CodeBase.Controllers
 
         private void GenerateCubes()
         {
-            var count = Random.Range(GameConstants.MIN_CUBE_COUNT, GameConstants.MAX_CUBE_COUNT);
+            var count = Random.Range(GameConstants.MIN_CUBE_COUNT, GameConstants.MAX_CUBE_COUNT + 1);
 
             for (var i = 0; i < count; i++)
             {
