@@ -14,8 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameZoneController gameZoneController;
     [SerializeField] private TextMesh numberText;
     [SerializeField] private Transform bulletContainer;
-
-    private readonly int _attackDelay = 2;
+    [SerializeField] private int attackDelay;
 
 
     private CancellationTokenSource _attackCts;
@@ -38,7 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         AttackTarget();
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_attackDelay), cancellationToken: _attackCts.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(attackDelay), cancellationToken: _attackCts.Token);
 
         StartAttackingRecursive().Forget();
     }

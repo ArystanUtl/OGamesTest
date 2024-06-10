@@ -764,6 +764,7 @@ MonoBehaviour:
   - {fileID: 5954732780691686722}
   - {fileID: 2640789441222338042}
   movingSpeed: 0.005
+  attackingSpeed: 5
 --- !u!54 &4424213445500781330
 Rigidbody:
   m_ObjectHideFlags: 0

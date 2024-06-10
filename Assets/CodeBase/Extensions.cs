@@ -1,10 +1,14 @@
-﻿namespace CodeBase
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace CodeBase
 {
     public static class Extensions
     {
-        public static bool IsCorrect(this string input)
+        public static bool IsNullOrEmpty(this IEnumerable<Object> input)
         {
-            return !string.IsNullOrEmpty(input) && !string.IsNullOrWhiteSpace(input);
+            return input == null || !input.Any();
         }
     }
 }
