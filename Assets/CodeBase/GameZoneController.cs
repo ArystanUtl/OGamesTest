@@ -13,13 +13,15 @@ namespace CodeBase
 
 
         private readonly List<Cube> _cubes = new();
+        public List<Cube> Cubes => _cubes;
 
         private void Awake()
         {
             buttonsController.OnGenerateButtonClicked += GenerateCubes;
             buttonsController.OnMoveButtonClicked += StartMovingCubes;
         }
-
+        
+        
         private void StartMovingCubes()
         {
             foreach (var cube in _cubes)
@@ -41,7 +43,7 @@ namespace CodeBase
                 cube.SetColor(color);
 
                 var number = i + 1;
-                cube.SetText(number.ToString());
+                cube.SetNumber(number);
 
                 _cubes.Add(cube);
             }

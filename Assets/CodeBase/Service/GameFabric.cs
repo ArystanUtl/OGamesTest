@@ -2,9 +2,10 @@
 
 namespace CodeBase.Service
 {
-    public class GameFabric: MonoBehaviour
+    public class GameFabric : MonoBehaviour
     {
         [SerializeField] private Cube cubePrefab;
+        [SerializeField] private Bullet bulletPrefab;
 
 
         public Cube CreateCube(Vector3 position, Transform parent)
@@ -13,7 +14,13 @@ namespace CodeBase.Service
             cube.transform.SetParent(parent);
             return cube;
         }
-        
-        
+
+        public Bullet CreateBullet(Vector3 position, Transform parent)
+        {
+            var bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
+
+            bullet.transform.SetParent(parent);
+            return bullet;
+        }
     }
 }

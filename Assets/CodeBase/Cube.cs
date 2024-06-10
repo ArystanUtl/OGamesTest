@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CodeBase;
 using CodeBase.GlobalData;
@@ -12,6 +13,11 @@ public class Cube : MonoBehaviour
     [SerializeField] private List<TMP_Text> textElements;
     [SerializeField] private float movingSpeed;
 
+   
+    private int _number;
+
+    public int Number => _number;
+    
     private Vector3 _currentMovementVector;
     private bool _isDirection;
 
@@ -24,10 +30,6 @@ public class Cube : MonoBehaviour
 
         var moveDirection = _currentMovementVector * movingSpeed;
         transform.Translate(moveDirection);
-        
-        
-        // rigidBody.velocity = moveDirection;
-        //rigidBody.AddForce(moveDirection, ForceMode.Acceleration);
     }
 
     private void OnCollisionStay(Collision other)
@@ -35,7 +37,6 @@ public class Cube : MonoBehaviour
         if (other.gameObject.CompareTag(GameConstants.FLOOR_TAG))
             return;
         
-        Debug.Log($"OnCollision: {other.gameObject.name}");
         
         GenerateMovementVector();
     }
@@ -50,16 +51,14 @@ public class Cube : MonoBehaviour
     {
         _currentMovementVector = Random.insideUnitSphere.normalized;
         _currentMovementVector = new Vector3(_currentMovementVector.x, 0f, _currentMovementVector.z);
-        
     }
 
-    public void SetText(string text)
+    public void SetNumber(int number)
     {
-        if (!text.IsCorrect())
-            return;
-
+        _number = number;
+        
         foreach (var textElement in textElements)
-            textElement.text = text;
+            textElement.text = number.ToString();
     }
 
     public void SetColor(Color color)
@@ -70,4 +69,10 @@ public class Cube : MonoBehaviour
         if (meshRenderer.material)
             meshRenderer.material.color = color;
     }
+
+    public void StopMovement()
+    {
+        _isMove = false;
+    }
+    
 }
