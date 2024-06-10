@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CodeBase
 {
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Rigidbody rigidBody;
         [SerializeField] private float speed;
 
         private bool _isAttack;
@@ -12,11 +13,8 @@ namespace CodeBase
         private Cube _target;
         private Vector3 _targetPos;
 
+        public Action OnHitTarget;
 
-        private void Start()
-        {
-            Destroy(gameObject, 3f);
-        }
 
         private void Update()
         {
@@ -24,10 +22,10 @@ namespace CodeBase
                 return;
 
             _targetPos = _target.transform.position;
-            
+
             var direction = _targetPos - transform.position;
             direction.Normalize();
-            
+
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
         }
 
@@ -41,6 +39,8 @@ namespace CodeBase
                 Debug.Log("[Bullet] Target completed");
                 cube.StopMovement();
                 _isAttack = false;
+                OnHitTarget?.Invoke();
+                Destroy(gameObject);
             }
         }
 

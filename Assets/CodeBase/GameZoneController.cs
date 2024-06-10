@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CodeBase.GlobalData;
 using CodeBase.Service;
 using UnityEngine;
@@ -12,22 +13,28 @@ namespace CodeBase
         [SerializeField] private Transform cubeContainer;
 
 
-        private readonly List<Cube> _cubes = new();
-        public List<Cube> Cubes => _cubes;
+        private List<Cube> _cubes = new();
+
+        public List<Cube> ActiveCubes
+        {
+            get
+            {
+                _cubes = _cubes.Where(x => x && x.gameObject && x.IsMoved).ToList();
+                return _cubes;
+            }
+        }
 
         private void Awake()
         {
             buttonsController.OnGenerateButtonClicked += GenerateCubes;
             buttonsController.OnMoveButtonClicked += StartMovingCubes;
         }
-        
-        
+
+
         private void StartMovingCubes()
         {
             foreach (var cube in _cubes)
-            {
                 cube.StartMoving();
-            }
         }
 
         private void GenerateCubes()

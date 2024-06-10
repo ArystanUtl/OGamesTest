@@ -3,7 +3,6 @@ using System.Threading;
 using CodeBase;
 using CodeBase.Service;
 using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,10 +15,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMesh numberText;
     [SerializeField] private Transform bulletContainer;
 
+    private readonly int _attackDelay = 2;
+
 
     private CancellationTokenSource _attackCts;
     private Cube _currentTarget;
-    
+
     private void Awake()
     {
         buttonsController.OnAttackButtonClicked += StartAttackMode;
@@ -30,43 +31,59 @@ public class PlayerController : MonoBehaviour
     {
         PrepareTarget();
 
-        StartAttacking().Forget();
+        StartAttackingRecursive().Forget();
     }
 
-    private async UniTask StartAttacking()
+    private async UniTask StartAttackingRecursive()
     {
-        StartAttackAsync();
+        AttackTarget();
+
         await UniTask.Delay(TimeSpan.FromSeconds(_attackDelay), cancellationToken: _attackCts.Token);
-        StartAttacking().Forget();
+
+        StartAttackingRecursive().Forget();
     }
 
-    private void StartAttackAsync()
+    private void AttackTarget()
     {
         var bullet = gameFabric.CreateBullet(bulletSpawn.transform.position, bulletContainer);
-        
-        
         bullet.SetTarget(_currentTarget);
+        bullet.OnHitTarget += ChangeTarget;
     }
-    
-    private readonly int _attackDelay = 2;
-    
+
+    private void ChangeTarget()
+    {
+        PrepareTarget();
+    }
+
     private void PrepareTarget()
     {
-        var cubes = gameZoneController.Cubes;
+        var cubes = gameZoneController.ActiveCubes;
+
+        if (cubes.Count == 0)
+        {
+            StopAttackingMode();
+            return;
+        }
 
         var randomIndex = Random.Range(0, cubes.Count);
 
         var randomCube = cubes[randomIndex];
         _currentTarget = randomCube;
-        
-        var number = randomCube.Number;
+
+        ShowTargetNumber();
+    }
+
+    private void ShowTargetNumber()
+    {
+        var number = _currentTarget.Number;
         numberText.text = number.ToString();
     }
 
-
-    public void StopAttackingMode()
+    private void StopAttackingMode()
     {
         _attackCts?.Cancel();
         _attackCts = new CancellationTokenSource();
+
+        numberText.text = "Stop attacking";
     }
 }

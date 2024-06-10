@@ -23,6 +23,7 @@ public class Cube : MonoBehaviour
 
     private bool _isMove;
 
+    public bool IsMoved => _isMove;
     private void Update()
     {
         if (!_isMove)
