@@ -1,11 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace CodeBase.GlobalData
+﻿namespace CodeBase.GlobalData
 {
     public class GameConstants
     {
-        public const float DELAY_BETWEEN_ATTACK = 1f;
-
         public const int MIN_CUBE_COUNT = 5;
         public const int MAX_CUBE_COUNT = 15;
 
